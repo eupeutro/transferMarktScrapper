@@ -12,11 +12,13 @@ def getLastPage(soup):
         return int(lastPageElement["href"].split("Spieler_page=")[-1])
     
     return 1
+ 
 
 def searchPlayers(name,page):
     url  = f'https://www.transfermarkt.com.br/schnellsuche/ergebnis/schnellsuche?query={name.replace(' ', '+')}&Spieler_page={page}'
     headers = {   
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/120.0.0.0 Safari/537.36"
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Accept-Language": "en-US"
 }
     
     response = requests.get(url, headers = headers)
@@ -27,7 +29,8 @@ def searchPlayers(name,page):
         
         searchResult = soup.select("td.hauptlink:not(.rechts)")
         playerStats = soup.select("td.zentriert:not(.hauptlink)")
-        
+        playerMarketValue = soup.select("td.rechts.hauptlink")
+
         lastPlayerPage = getLastPage(soup)
 
         if searchResult:
@@ -41,7 +44,9 @@ def searchPlayers(name,page):
                     playerPosition = playerStats[i * 4].text.strip()
                     playerClub = playerStats[i * 4 +1].find("img")["title"]
                     playerAge = playerStats[i * 4 + 2].text.strip()
-                                        
+                    
+                    marketValue =  playerMarketValue[i].text.strip() if i < len(playerMarketValue) else "N/A"
+
                     nationalityImgs = playerStats[i * 4 + 3].find_all("img")
                     playerNationality = [img["title"] for img in nationalityImgs]
 
@@ -51,7 +56,8 @@ def searchPlayers(name,page):
                         "club": playerClub,
                         "age": playerAge,
                         "nationalities": playerNationality,
-                        "playerId": playerId
+                        "playerId": playerId,
+                        "marketValue": marketValue
                     })
                 except Exception as e:
                     #In case of parsing error

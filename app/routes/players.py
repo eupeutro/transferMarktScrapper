@@ -10,6 +10,7 @@ def get_players(
     """
     Endpoint for search players by their name.
     Example: /players?name=Pedro
+    
     """
 
     playersData = getPlayer.searchPlayers(name,page)
