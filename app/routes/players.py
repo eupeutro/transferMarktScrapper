@@ -1,11 +1,11 @@
 from fastapi import APIRouter, HTTPException, Query
-from app.services import getPlayer
+from app.services import searchPlayers
 
 router = APIRouter()
 
 @router.get("/")
-def get_players(
-    name: str = Query(..., description="Player name for search"),
+def search_players(
+    query: str = Query(..., description="Player name for search"),
     page: int = Query(1, description="Page number for search results")):
     """
     Endpoint for search players by their name.
@@ -13,7 +13,7 @@ def get_players(
     
     """
 
-    playersData = getPlayer.searchPlayers(name,page)
+    playersData = searchPlayers.searchPlayers(query,page)
 
     if playersData is None:
         raise HTTPException(status_code=404, detail="Player not found or request error")
