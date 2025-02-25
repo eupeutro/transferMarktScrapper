@@ -14,8 +14,13 @@ def getLastPage(soup):
     return 1
  
 
+<<<<<<< HEAD:app/services/searchPlayers.py
 def searchPlayers(query,page):
     url  = f'https://www.transfermarkt.com.br/schnellsuche/ergebnis/schnellsuche?query={query.replace(' ', '+')}&Spieler_page={page}'
+=======
+def searchPlayers(name,page):
+    url  = f'https://www.transfermarkt.co.uk/schnellsuche/ergebnis/schnellsuche?query={name.replace(' ', '+')}&Spieler_page={page}'
+>>>>>>> 12064e5 (adding func getPlayerProfile):app/services/getPlayer.py
     headers = {   
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/120.0.0.0 Safari/537.36",
     "Accept-Language": "en-US"
