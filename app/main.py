@@ -1,8 +1,8 @@
 from fastapi import FastAPI
-from app.routes import Players
+from app.routes import players
 
 app = FastAPI(
     title="transferMarktScrapper"
 )
 
-app.include_router(Players.router, prefix="/players",tags=["players"])
+app.include_router(players.router, prefix="/Players",tags=["Players"])

@@ -40,7 +40,7 @@ def getPlayerProfile(playerID):
                      "strongFoot": playerStrongFoot,
                      "currentClub": playerCurrentClub,
                      "joinedAtClub": joinedAtClub,
-                     "contractExpiration": contractExpiration
+                     "contractExpiration":contractExpiration
 
                 })
 
@@ -49,4 +49,5 @@ def getPlayerProfile(playerID):
             print("error")
 
 id = 102017
+
 getPlayerProfile(id)
