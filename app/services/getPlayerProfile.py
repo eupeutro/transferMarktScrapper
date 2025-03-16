@@ -14,11 +14,34 @@ def getPlayerProfile(playerID):
         soup = BeautifulSoup(response.text, "html.parser")
         result = []
 
+        nameWraper = soup.select_one("h1.data-header__headline-wrapper")
+        jerseyNumberElement = soup.select_one("span.data-header__shirt-number")
+
+        jerseyNumber = None
+        playerName = None
+
+        if nameWraper:
+            for span in nameWraper.find_all("span"):
+                 span.extract()
+
+
+            playerName = nameWraper.text.strip()          
+             
+             
+             #nameField = nameWraper.text.strip() # name within jersey num
+
+        if jerseyNumberElement:
+            jerseyNumber = jerseyNumberElement.text.strip().replace("#", "") #only numbers.
+               #   playerName = nameField.replace(jerseyNumberElement.text, "").strip()
+                  
+            # else: 
+             #     playerName = nameField
+
         playerInfo= soup.select("span.info-table__content--bold")
         
         #print(playerInfo) 
         try :
-                playerName = playerInfo[0].text.strip()
+                
                 playerBirthDate = playerInfo[1].text.strip()
                 playerBirthPlace = playerInfo[2].text.strip()
                 playerHeight = playerInfo[3].text.strip()
@@ -31,7 +54,8 @@ def getPlayerProfile(playerID):
 
 
                 result.append({
-                     "fullName":playerName,
+                     "playerName":playerName,
+                     "jerseyNumber": jerseyNumber,
                      "birthDate":playerBirthDate,
                      "birthPlace":playerBirthPlace,
                      "height":playerHeight,
@@ -43,7 +67,7 @@ def getPlayerProfile(playerID):
                      "contractExpiration":contractExpiration
 
                 })
-
+                
                 print(result)
         except Exception as e:
             print("error")
